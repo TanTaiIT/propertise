@@ -1,0 +1,4 @@
+export const ACCESS_TOKEN_EXPIRES_IN = '15m'
+export const REFRESH_TOKEN_EXPIRES_IN = '7d'
+export const API_KEY_CLOUNDINARY = '598854437854472'
+export const API_SECRET_CLOUNDINARY = 'pS0P5lh9dwMQp-wpKfhs2iLw2PI'
