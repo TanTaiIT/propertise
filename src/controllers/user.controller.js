@@ -43,8 +43,8 @@ export const updateAvartar = async (req, res) => {
 }
 
 export const updateProfile = async (req, res) => {
-    const { fullName, phone, email, address } = req.body
-    const user = await User.findByIdAndUpdate(req.user._id, { fullName, phone, email, address }, { new: true }).select('-passwordHash')
+    const { fullName, phone, email, address, role } = req.body
+    const user = await User.findByIdAndUpdate(req.user._id, { fullName, phone, email, address, role }, { new: true }).select('-passwordHash')
 
     if(!user) {
         throw AppError.internal('Fail to update profile')

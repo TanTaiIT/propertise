@@ -12,12 +12,13 @@ import AppError from "../utils/app-error.js";
  *   router.delete("/:id", authenticate, authorize("admin"), deletePost);
  */
 function authorize(...allowedRoles) {
+  
   return (req, _res, next) => {
     if (!req.user) {
       return next(AppError.unauthorized());
     }
 
-    if (!allowedRoles.includes(req.user.role)) {
+    if (!allowedRoles.includes(Number(req.user.role))) {
       return next(
         AppError.forbidden("You do not have permission to perform this action.")
       );

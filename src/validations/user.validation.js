@@ -1,4 +1,5 @@
-import { z } from "zod";
+import { z } from "zod"
+import { ROLE } from "../config/system.js"
 
 const PASSWORD_MIN = 6;
 const FULLNAME_MAX = 120;
@@ -76,6 +77,7 @@ export const updateProfileSchema = z
     .email("Invalid email address")
     .optional(),
     address: z.string().trim().max(255, 'Address must be at most 255 characters').optional(),
+    role: z.enum(ROLE).optional(),
   })
   .strict()
   .refine((data) => Object.keys(data).length > 0, "At least one field to update is required");

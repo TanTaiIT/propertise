@@ -11,5 +11,13 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({storage})
-export default upload
+export const upload = multer({storage})
+
+// export const uploadFormData = multer({ storage: storage }).fields([
+//     { name: 'media', maxCount: 10 },
+// ])
+
+export const uploadFormData = () => {
+    const storage = multer.memoryStorage()
+    return multer({ storage })
+}
