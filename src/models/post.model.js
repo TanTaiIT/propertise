@@ -81,6 +81,11 @@ const postSchema = new mongoose.Schema(
     media: {
       mediaSchema
     },
+    pendingMediaJobId: {
+      type: String,
+      default: null,
+      index: true
+    },
     publishedAt: {
       type: Date,
       default: null
@@ -97,6 +102,16 @@ const postSchema = new mongoose.Schema(
     featuredUntil: {
       type: Date,
       default: null
+    },
+    priorityScore: {
+      type: Number,
+      default: 0,
+      index: true
+    },
+    lastBoostedAt: {
+      type: Date,
+      default: null,
+      index: true
     },
 
     location: {
@@ -157,8 +172,8 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-postSchema.index({ title: "text", content: "text", author: "text", tags: "text" });
-postSchema.index({ status: 1, createdAt: -1 });
+postSchema.index({ title: "text", content: "text", authorName: "text", tags: "text" });
+postSchema.index({ status: 1, lastBoostedAt: -1, priorityScore: -1, createdAt: -1 });
 postSchema.index({ authorId: 1, status: 1, createdAt: -1 });
 postSchema.index({ categoryId: 1, status: 1, createdAt: -1 });
 postSchema.index({ slug: 1 }, { sparse: true });

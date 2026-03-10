@@ -26,3 +26,17 @@ export const ROLE = {
 export const PAGINATION = {
     limit: 10
 }
+
+
+/**
+ * Boost rotation – như Chợ Tốt, Batdongsan.
+ * Tin VIP/premium tự động xoay vòng lên đầu mỗi N giờ.
+ */
+export const BOOST_ROTATION = {
+    /** Chu kỳ xoay vòng (giờ) */
+    intervalHours: 4,
+    /** Số tin được “đẩy lên” mỗi lần (mỗi tier) */
+    batchSizePerTier: 20,
+    /** Cron expression: mặc định mỗi 4 giờ (0:00, 4:00, 8:00, ...) */
+    cronExpression: "0 */4 * * *"
+}

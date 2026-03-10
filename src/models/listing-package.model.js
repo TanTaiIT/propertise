@@ -22,7 +22,7 @@ const listingPackageSchema = new mongoose.Schema(
     },
     packageType: {
       type: String,
-      enum: ["standard", "premium", "boost"],
+      enum: ["free", "basic", "standard", "premium", "vip", "boost"],
       default: "standard"
     },
     price: {
@@ -59,7 +59,7 @@ const listingPackageSchema = new mongoose.Schema(
   }
 );
 
-listingPackageSchema.index({ code: 1 }, { unique: true });
 listingPackageSchema.index({ isActive: 1, packageType: 1 });
+listingPackageSchema.index({ packageType: 1, priorityScore: -1 });
 
 export default mongoose.model("ListingPackage", listingPackageSchema);
