@@ -57,7 +57,8 @@ export async function checkPackageSlot(userPackage) {
     return { hasSlot: false, used: 0, max: 0 };
   }
 
-  const max = userPackage.listingPackageId?.maxPosts ?? 1;
+  // const max = userPackage.listingPackageId?.maxPosts ?? 1;
+  const max = userPackage.remainingPosts ?? 0
   const used = await getUsedPostCount(userPackage._id);
 
   return {

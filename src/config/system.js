@@ -40,3 +40,11 @@ export const BOOST_ROTATION = {
     /** Cron expression: mặc định mỗi 4 giờ (0:00, 4:00, 8:00, ...) */
     cronExpression: "0 */4 * * *"
 }
+
+export const ORDER_STATUS = {
+    PENDING_PAYMENT: 0,
+    PAID: 1,
+    FAILED: 2,
+    CANCELLED: 3,
+    REFUNDED: 4
+}

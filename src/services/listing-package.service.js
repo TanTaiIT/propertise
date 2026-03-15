@@ -17,6 +17,17 @@ export async function getByCode(code) {
 }
 
 /**
+ * Lấy ListingPackage theo Id
+ * 
+ * @params { string} id - Id of the ListingPackage
+ * @returns {Promise<import("mongoose").Document|null>}
+ */
+export async function getById(id) {
+  if (!id) return null;
+  return ListingPackage.findById({ _id: id, isActive: true }).lean();
+}
+
+/**
  * Lấy gói FREE (tin thường) – dùng cho logic free tier.
  *
  * @returns {Promise<import("mongoose").Document|null>}

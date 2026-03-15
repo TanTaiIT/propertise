@@ -13,6 +13,9 @@ import postRoutes from "./routes/post.routes.js";
 import authRouter from "./routes/authenticate.route.js";
 import userRouter from "./routes/user.routes.js";
 import packageRoutes from "./routes/package.route.js";
+import likeRoutes from "./routes/like.route.js";
+import { VNPay, ignoreLogger, ProductCode, VnpLocale, dateFormat } from "vnpay"
+import paymentRouter from "./routes/payment.route.js";
 const app = express();
 
 // ── System Middleware (applied globally, order matters) ────
@@ -34,6 +37,8 @@ app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/packages", packageRoutes);
+app.use("/api/like", likeRoutes);
+app.use("/api/payment", paymentRouter)
 
 // ── Error Middleware (must be last) ───────────────────────
 app.use(notFound);

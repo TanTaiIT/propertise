@@ -1,9 +1,10 @@
-import "dotenv/config";
 import app from "./app.js";
 import { connectDb } from "./config/db.js";
 import { startBoostRotationCron } from "./cron/boost-rotation.job.js";
 import { startUploadMediaCron } from "./cron/upload-media.job.js";
+import dotenv from 'dotenv';
 
+dotenv.config()
 const port = process.env.PORT || 5000;
 
 async function startServer() {

@@ -1,7 +1,5 @@
 import { v2 as cloundinary } from 'cloudinary'
-import dotenv from 'dotenv';
 
-dotenv.config()
 cloundinary.config({
     secure: true,
     cloud_name: process.env.CLOUND_NAME,

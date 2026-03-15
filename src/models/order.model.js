@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ORDER_STATUS } from "../config/system.js";
 
 const postOrderSchema = new mongoose.Schema(
   {
@@ -12,11 +13,6 @@ const postOrderSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
-    },
-    postId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
       required: true
     },
     listingPackageId: {
@@ -36,8 +32,8 @@ const postOrderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ["pending_payment", "paid", "failed", "cancelled", "refunded"],
-      default: "pending_payment"
+      enum: [ORDER_STATUS.PENDING_PAYMENT, ORDER_STATUS.PAID, ORDER_STATUS.FAILED, ORDER_STATUS.CANCELLED, ORDER_STATUS.REFUNDED],
+      default: ORDER_STATUS.PENDING_PAYMENT
     },
     paidAt: {
       type: Date,
