@@ -2,8 +2,10 @@ import Order from './../models/order.model.js'
 import { generateRandomString } from './../middlewares/utils/token.js'
 import { AppError } from '../middlewares/index.js'
 import UserPackage from './../models/user-package.model.js'
+import ListingPackage from '../models/listing-package.model.js'
 import mongoose from 'mongoose'
 import { ORDER_STATUS } from '../config/system.js'
+import notificationService from './notification.service.js'
 export const createOrder = async ({
     amount,
     note,
@@ -88,6 +90,13 @@ export const updateOrderAfterPaymentSuccess = async ({
 
         await session.commitTransaction();
         session.endSession();
+
+        // Send notification to user
+        notificationService.notifyOrderConfirmed({
+          recipientId: order.userId,
+          orderId: order._id,
+          amount: order.amount,
+        }).catch((err) => console.error("Failed to send order confirmation notification:", err))
 
         return order;
     } catch(error) {

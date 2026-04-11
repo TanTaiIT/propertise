@@ -3,6 +3,7 @@ import { createOrder, updateOrderAfterPaymentSuccess } from "../services/order.s
 import { getById } from "../services/listing-package.service.js"
 import { AppError } from "../middlewares/index.js"
 import UserPackage from "../models/user-package.model.js"
+import notificationService from "../services/notification.service.js"
 const requestPayment = async (req, res) => {
     const { listingPackageId } = req.body
     const userId = req.user._id
@@ -29,6 +30,22 @@ const requestPayment = async (req, res) => {
 const paymentSuccess = async (req, res) => {
     const { vnp_Amount, vnp_BankCode, vnp_BankTranNo, vnp_CardType, vnp_OrderInfo, vnp_PayDate, vnp_ResponseCode, vnp_TmnCode, vnp_TransactionNo, vnp_TransactionStatus, vnp_TxnRef, vnp_SecureHash } = req.query
 
+    // Handle failed payment
+    if (vnp_ResponseCode !== '00') {
+        // Find the order to get the userId for notification
+        const Order = (await import('../models/order.model.js')).default
+        const order = await Order.findOne({ orderCode: vnp_TxnRef }).lean()
+        if (order) {
+            notificationService.notifyOrderFailed({
+                recipientId: order.userId,
+                orderId: order._id,
+                reason: `Payment failed with response code: ${vnp_ResponseCode}. Please try again.`,
+            }).catch((err) => console.error("Failed to send order failed notification:", err))
+        }
+        // Redirect to frontend payment failed page
+        return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:3000'}/payment/failed?order=${vnp_TxnRef}&code=${vnp_ResponseCode}`)
+    }
+
     const orderUpdate = await updateOrderAfterPaymentSuccess({
         vnp_Amount,
         vnp_BankCode,
@@ -44,19 +61,8 @@ const paymentSuccess = async (req, res) => {
         vnp_SecureHash
     })
 
-    return orderUpdate
-    // if(vnp_ResponseCode !== '00') {
-    //     throw AppError.badRequest("Payment failed")
-    // }
-
-    // const order = await Order.findOne({ orderCode: vnp_TxnRef })
-    // if(!order) {
-    //     throw AppError.notFound("Order not found")
-    // }
-
-    // order.orderStatus = ORDER_STATUS.PAID
-    // await order.save()
-    // return res.status(200).json({ message: "Payment successful" })
+    // Redirect to frontend payment success page
+    return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:3000'}/payment/success?order=${vnp_TxnRef}`)
 }
 
 export { requestPayment, paymentSuccess }

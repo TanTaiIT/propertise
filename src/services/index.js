@@ -3,3 +3,4 @@ export * from "./user-package.service.js";
 export * from "./post.service.js";
 export * from "./boost-rotation.service.js";
 export * from "./upload-media.service.js";
+export { default as notificationService } from "./notification.service.js";

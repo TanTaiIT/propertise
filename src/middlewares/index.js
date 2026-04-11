@@ -18,6 +18,7 @@ import errorHandler from "./error/error-handler.js";
 // ── Utilities ──────────────────────────────────────────────
 import AppError from "./utils/app-error.js";
 import asyncHandler from "./utils/async-handler.js";
+import { upload, uploadFormData } from "./upload/upload.middleware.js";
 
 export {
   // System
@@ -42,5 +43,9 @@ export {
 
   // Utils
   AppError,
-  asyncHandler
+  asyncHandler,
+
+  // Upload
+  upload,
+  uploadFormData,
 };
